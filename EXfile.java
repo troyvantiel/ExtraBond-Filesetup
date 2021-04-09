@@ -87,11 +87,11 @@ public class EXfile {
 				for(int f = 0; f < 4; f++)
 				{
 					//if statement to check for a backbone atom. Atom type is stored in index 2
-					if(atomdata.get(2).equals(bbatoms.get(f)))
-					{
+					if (atomdata.get(2).equals(bbatoms.get(f))) {
 						//if there is a match we want the line added to the final array so set the atom check variable to true
 						atomcheck = true;
 
+						break;
 					}
 
 				}
