@@ -1,8 +1,5 @@
+import java.io.*;
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 
 public class EXfile {
@@ -10,14 +7,27 @@ public class EXfile {
 	{
 		try
 		{
+			//make a string for the filename
+			String filename = "./Extrabonds";
 			//need to get the length of the final data array divided by four as that is how many atoms are in the residues and thus how many dihedral angles we need to constrain
 			int divlength = linedata.size()/4;
 			//specify the spring constant k for the angle
 			int k = 0;
 			//specify the angle in degrees that will be the constraint
 			int ref = 60;
-			//create a file writer and a .txt file so that the data can be written and used by NAMD
-			FileWriter fileWrite = new FileWriter("./Extrabonds.txt");
+			//create file and do relevant checks to see if the file exists
+			File myFile = new File(filename);
+			//check to see if a file was created and show feedback based on this case
+			if(myFile.createNewFile())
+			{
+				System.out.println("File created: " + myFile.getName());
+			}
+			else
+				{
+					System.out.println("File already exists!");
+				}
+			//create a file writer so text can be written to the file
+			FileWriter fileWrite = new FileWriter(filename);
 			//for loop to take the data of four lines at a time and create a constraint
 			for(int y = 0; y < divlength; y = y+4)
 			{
