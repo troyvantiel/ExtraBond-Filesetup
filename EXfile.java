@@ -5,67 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-
-public class EXfile
-{
-
-
-  public static void readpdb(String filename)
-  {
-  	try
-  	{
-  		boolean loop = true;
-  		int count = 0;
-  		int p = 0;
-  		String line = "";
-  		String split = " ";
-  		ArrayList<String> atomdata = new ArrayList<String>();
-  		ArrayList<String[]> linedata = new ArrayList<String[]>();
-    		String[] pdbline = null;
-    		String[] temp = null;
-  		BufferedReader pdbRead = new BufferedReader(new FileReader(filename));
-  		line = pdbRead.readLine();
-  		while(loop)
-  		{
-  			//atomdata.clear();
-  			line = pdbRead.readLine();
-  			p = 0;
-  			System.out.println(line);
-  			pdbline = line.split(split);
-  			for(int i = 0; i < pdbline.length; i++)
-  			{
-				atomdata.add(pdbline[i]);
-				//System.out.println(i + "    " + data.get(i-p));
-				if(atomdata.get(i-p).isEmpty())
-				{
-					atomdata.remove(i-p);
-					p++; 
-
-				}
-  			}
-  			temp = atomdata.toArray();
-  			linedata.add(temp);
-  			count++;
-  			if(count > 2)
-  			{
-  				loop = false;
-  			}
-  		}
-  		for(int j = 0; j < 3; j++)
-  		{
-  			for(int t = 0; t < 12; t++)
-  			{
-  				System.out.println(linedata.get(j)[t]);
-  			}
-  		}
-  	}
-  	catch(IOException e)
-  	{
-  		e.printStackTrace();
-  	}
-  	
-  	
-  }
+public class EXfile {
 
   public static void main(String[] args)
   {
@@ -89,7 +29,7 @@ public class EXfile
 		
 		
 		BufferedReader br = new BufferedReader(new FileReader(file));
-		readpdb(file);
+		//readpdb(file);
 		while(stop)
 		{
 			line = br.readLine();
