@@ -78,7 +78,7 @@ public class EXfile {
 				}
 				//first check if we are still looking at the protein and not the water box. This can be determined from the last column in the pdb file
 				//WT1 stands for the first water in the molecule which is no longer part of the protein
-				if(atomdata.get(11).equals("WT1"))
+				if(atomdata.get(11).equals("WT1") || atomdata.get(11).equals("H"))
 				{
 					//break out of the while loop so set the boolean "loop" to false will break the while
 					loop = false;
