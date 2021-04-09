@@ -8,7 +8,28 @@ import java.io.IOException;
 public class EXfile {
 	public static void outputToFile(ArrayList<String[]> linedata)
 	{
-
+		try
+		{
+			//need to get the length of the final data array divided by four as that is how many atoms are in the residues and thus how many dihedral angles we need to constrain
+			int divlength = linedata.size()/4;
+			//specify the spring constant k for the angle
+			int k = 0;
+			//specify the angle in degrees that will be the constraint
+			int ref = 60;
+			//create a file writer and a .txt file so that the data can be written and used by NAMD
+			FileWriter fileWrite = new FileWriter("./Extrabonds.txt");
+			//for loop to take the data of four lines at a time and create a constraint
+			for(int y = 0; y < divlength; y = y+4)
+			{
+				//write the data to the file in the correct formatting. Example: dihedral <atom1> <atom2> <atom3> <atom4> <k> <ref>
+				fileWrite.write("dihedral " + "<" + linedata.get(y)[1] + "> " + "<" + linedata.get(y+1)[1] + "> " + "<" + linedata.get(y+2)[1] + "> "
+						+ "<" + linedata.get(y+3)[1] + "> " + "<" + k + "> " + "<" + ref + ">");
+			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	public static void	Readpdb(String filename)
 	{
@@ -20,8 +41,8 @@ public class EXfile {
 			String line = "";
 			String split = " ";
 			List<String> bbatoms = Arrays.asList(new String[]{"C", "O", "N", "CA"});
-			ArrayList<String> atomdata = new ArrayList<String>();
-			ArrayList<String[]> linedata = new ArrayList<String[]>();
+			ArrayList<String> atomdata = new ArrayList<>();
+			ArrayList<String[]> linedata = new ArrayList<>();
 			String[] pdbline = null;
 
 			BufferedReader pdbRead = new BufferedReader(new FileReader(filename));
@@ -71,8 +92,8 @@ public class EXfile {
 					}
 
 				}
-				//check the atom check variable to see if the line can be added to the final array
-				if(atomcheck == true)
+				//check the "atomcheck" variable (true) to see if the line can be added to the final array
+				if(atomcheck)
 				{
 					//add the line to the final array. putting it in as an array dereferences the data so the array can be cleared for the next line and no data will be lost
 					linedata.add(atomdata.toArray(new String[10]));
