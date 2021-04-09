@@ -24,8 +24,9 @@ public class EXfile {
 			{
 				//write the data to the file in the correct formatting. Example: dihedral <atom1> <atom2> <atom3> <atom4> <k> <ref>
 				fileWrite.write("dihedral " + "<" + linedata.get(y)[1] + "> " + "<" + linedata.get(y+1)[1] + "> " + "<" + linedata.get(y+2)[1] + "> "
-						+ "<" + linedata.get(y+3)[1] + "> " + "<" + k + "> " + "<" + ref + ">");
+						+ "<" + linedata.get(y+3)[1] + "> " + "<" + k + "> " + "<" + ref + ">" + "\n");
 			}
+			fileWrite.close();
 		}
 		catch(IOException e)
 		{
@@ -77,7 +78,6 @@ public class EXfile {
 				}
 				//first check if we are still looking at the protein and not the water box. This can be determined from the last column in the pdb file
 				//WT1 stands for the first water in the molecule which is no longer part of the protein
-				System.out.println(atomdata.size() + "    " +  atomdata.get(11));
 				if(atomdata.get(11).equals("WT1"))
 				{
 					//break out of the while loop so set the boolean "loop" to false will break the while
@@ -132,6 +132,7 @@ public class EXfile {
 			System.out.println("File already exists. Overwriting...");
 		}
 		Readpdb(args[0]);
+		System.out.println("Done!");
 	}
   	catch (IOException e)
 	{
