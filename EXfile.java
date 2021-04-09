@@ -8,7 +8,7 @@ public class EXfile {
 		try
 		{
 			//make a string for the filename
-			String filename = "./Extrabonds";
+			String filename = "./Extrabonds.txt";
 			//need to get the length of the final data array divided by four as that is how many atoms are in the residues and thus how many dihedral angles we need to constrain
 			int divlength = linedata.size()/4;
 			//specify the spring constant k for the angle
