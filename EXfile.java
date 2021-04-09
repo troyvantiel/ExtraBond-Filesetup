@@ -3,29 +3,20 @@ import java.util.*;
 
 
 public class EXfile {
+	//make a string for the filename
+	public static String filename = "./Extrabonds.txt";
 	public static void outputToFile(ArrayList<String[]> linedata)
 	{
 		try
 		{
-			//make a string for the filename
-			String filename = "./Extrabonds.txt";
+
 			//need to get the length of the final data array divided by four as that is how many atoms are in the residues and thus how many dihedral angles we need to constrain
 			int divlength = linedata.size()/4;
 			//specify the spring constant k for the angle
 			int k = 0;
 			//specify the angle in degrees that will be the constraint
 			int ref = 60;
-			//create file and do relevant checks to see if the file exists
-			File myFile = new File(filename);
-			//check to see if a file was created and show feedback based on this case
-			if(myFile.createNewFile())
-			{
-				System.out.println("File created: " + myFile.getName());
-			}
-			else
-				{
-					System.out.println("File already exists!");
-				}
+
 			//create a file writer so text can be written to the file
 			FileWriter fileWrite = new FileWriter(filename);
 			//for loop to take the data of four lines at a time and create a constraint
@@ -56,6 +47,7 @@ public class EXfile {
 			String[] pdbline = null;
 
 			BufferedReader pdbRead = new BufferedReader(new FileReader(filename));
+			//read the first line from the file as it contains crystal data that is not useful
 			line = pdbRead.readLine();
 			while(loop)
 			{
@@ -85,7 +77,8 @@ public class EXfile {
 				}
 				//first check if we are still looking at the protein and not the water box. This can be determined from the last column in the pdb file
 				//WT1 stands for the first water in the molecule which is no longer part of the protein
-				if(atomdata.get(9).equals("WT1"))
+				System.out.println(atomdata.size() + "    " +  atomdata.get(11));
+				if(atomdata.get(11).equals("WT1"))
 				{
 					//break out of the while loop so set the boolean "loop" to false will break the while
 					loop = false;
@@ -106,7 +99,7 @@ public class EXfile {
 				if(atomcheck)
 				{
 					//add the line to the final array. putting it in as an array dereferences the data so the array can be cleared for the next line and no data will be lost
-					linedata.add(atomdata.toArray(new String[10]));
+					linedata.add(atomdata.toArray(new String[12]));
 				}
 				//call the output method to set up the extrabonds file
 				outputToFile(linedata);
@@ -125,46 +118,31 @@ public class EXfile {
 
   public static void main(String[] args)
   {
-	try
+  	try
 	{
-		//file for dihedral extrabonds needs to be set up in the manner shown below
-		//dihedral <atom1> <atom2> <atom3> <atom4> <k> <ref>
-		
-		int atom1 = 0;
-		int atom2 = 0;
-		int atom3 = 0;
-		int atom4 = 0;
-		int k = 0;
-		int ref = 0;
-		boolean stop = false;
-		String file = args[0];
-		String dihed = "dihedral";
-		String splitBY = ",";
-		String line = "";
-		String[] data = null;
-		
-		
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		//readpdb(file);
-		while(stop)
+		//create file and do relevant checks to see if the file exists
+		File myFile = new File(filename);
+		//check to see if a file was created and show feedback based on this case
+		if(myFile.createNewFile())
 		{
-			line = br.readLine();
-			data = line.split(splitBY);
-			
-			atom1 = Integer.parseInt(data[0]);
-			atom2 = Integer.parseInt(data[1]);
-			atom3 = Integer.parseInt(data[2]);
-			atom4 = Integer.parseInt(data[3]);
-			k = Integer.parseInt(data[4]);
-			ref = Integer.parseInt(data[5]);
-			
+			System.out.println("File created: " + myFile.getName());
 		}
-		
+		else
+		{
+			System.out.println("File already exists. Overwriting...");
+		}
+		Readpdb(args[0]);
 	}
-	catch(IOException e)
+  	catch (IOException e)
 	{
 		e.printStackTrace();
-	}	
+	}
+
+
+
+		
+
+
   }
 
 
