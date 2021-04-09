@@ -20,13 +20,14 @@ public class EXfile
   		String line = "";
   		String split = " ";
   		ArrayList<String> atomdata = new ArrayList<String>();
-  		ArrayList<List<String>> linedata = new ArrayList<List<String>>();
+  		ArrayList<String[]> linedata = new ArrayList<String[]>();
     		String[] pdbline = null;
+    		String[] temp = null;
   		BufferedReader pdbRead = new BufferedReader(new FileReader(filename));
   		line = pdbRead.readLine();
   		while(loop)
   		{
-  			atomdata.clear();
+  			//atomdata.clear();
   			line = pdbRead.readLine();
   			p = 0;
   			System.out.println(line);
@@ -42,7 +43,8 @@ public class EXfile
 
 				}
   			}
-  			linedata.add(atomdata);
+  			temp = atomdata.toArray();
+  			linedata.add(temp);
   			count++;
   			if(count > 2)
   			{
@@ -53,8 +55,7 @@ public class EXfile
   		{
   			for(int t = 0; t < 12; t++)
   			{
-  				System.out.println(linedata.get(j).get(t));
-  				//System
+  				System.out.println(linedata.get(j)[t]);
   			}
   		}
   	}
