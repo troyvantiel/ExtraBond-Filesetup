@@ -23,8 +23,8 @@ public class EXfile {
 			for(int y = 0; y < divlength; y = y+4)
 			{
 				//write the data to the file in the correct formatting. Example: dihedral <atom1> <atom2> <atom3> <atom4> <k> <ref>
-				fileWrite.write("dihedral " + "<" + linedata.get(y)[1] + "> " + "<" + linedata.get(y+1)[1] + "> " + "<" + linedata.get(y+2)[1] + "> "
-						+ "<" + linedata.get(y+3)[1] + "> " + "<" + k + "> " + "<" + ref + ">" + "\n");
+				fileWrite.write("dihedral "  + linedata.get(y)[1]  + " " + linedata.get(y+1)[1]  + " " + linedata.get(y+2)[1]
+						+ " " + linedata.get(y+3)[1]  + " " + k  + " " + ref + "\n");
 			}
 			fileWrite.close();
 		}
