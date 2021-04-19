@@ -5,6 +5,39 @@ import java.util.*;
 public class EXfile {
 	//make a string for the filename
 	public static String filename = "./Extrabonds.txt";
+
+	public static void ReadSTRIDE(String file)
+	{
+		try
+		{
+			String line;
+			String split = " ";
+			String[] lineArray;
+
+			BufferedReader strideRead = new BufferedReader(new FileReader(file));
+			while(true)
+			{
+				line = strideRead.readLine();
+				if(line == null)
+				{
+					break;
+				}
+				System.out.println("Full Line: " + line);
+				lineArray = line.split(split);
+				for(int i = 0; i < lineArray.length; i++)
+				{
+					System.out.println("Line Array at pos:" + i + "   " + lineArray[i]);
+				}
+			}
+
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
 	public static void outputToFile(ArrayList<String[]> linedata)
 	{
 		try
@@ -16,6 +49,18 @@ public class EXfile {
 			int k = 0;
 			//specify the angle in degrees that will be the constraint
 			int ref = 60;
+
+			/* Test for printing all the data that is sent to the output file
+			for(int t = 0; t < linedata.size(); t++)
+			{
+				System.out.println(" ");
+				for(int v = 0; v< linedata.get(t).length; v++)
+				{
+					System.out.print(linedata.get(t)[v] + " ");
+				}
+
+			}*/
+
 
 			//create a file writer so text can be written to the file
 			FileWriter fileWrite = new FileWriter(filename);
@@ -33,7 +78,7 @@ public class EXfile {
 			e.printStackTrace();
 		}
 	}
-	public static void	Readpdb(String filename)
+	public static void Readpdb(String file)
 	{
 		try
 		{
@@ -47,7 +92,7 @@ public class EXfile {
 			ArrayList<String[]> linedata = new ArrayList<>();
 			String[] pdbline = null;
 
-			BufferedReader pdbRead = new BufferedReader(new FileReader(filename));
+			BufferedReader pdbRead = new BufferedReader(new FileReader(file));
 			//read the first line from the file as it contains crystal data that is not useful
 			line = pdbRead.readLine();
 			while(loop)
@@ -102,8 +147,9 @@ public class EXfile {
 					linedata.add(atomdata.toArray(new String[12]));
 				}
 				//call the output method to set up the extrabonds file
-				outputToFile(linedata);
+
 			}
+			outputToFile(linedata);
 		}
 		catch(IOException e)
 		{
@@ -120,19 +166,42 @@ public class EXfile {
   {
   	try
 	{
-		//create file and do relevant checks to see if the file exists
-		File myFile = new File(filename);
-		//check to see if a file was created and show feedback based on this case
-		if(myFile.createNewFile())
+		if(args[0].equals("help"))
 		{
-			System.out.println("File created: " + myFile.getName());
+			System.out.println("There must be a stride output file and a .pdb file.");
+			System.out.println("Usage:");
+			System.out.println("Argument 0 = stride output file (.txt or .csv file format)^");
+			System.out.println("Argument 1 = .pdb input file from the molecule");
+			System.out.println("^For a list of instructions to obtain a stride output file run this program again with stride as the first argument.");
+
+		}
+		else if(args[0].equals("stride"))
+		{
+			System.out.println("To obtain a stride output file follow the steps below:");
+			System.out.println("1. Download the stride files from https://github.com/owenvickery/stride_vmd");
+			System.out.println("2. Follow the quick steps to set up stride locally or for use anywhere in your system");
+			System.out.println("3. Run stride in the terminal using $./stride myPDB.pdb > StrideOutput.txt");
+			System.out.println("		this will give you a .txt file with the output of stride for use in this program (can also use .csv as the output type)");
+			System.out.println("4. Move the file to where this program can use it and input the file name as the first argument to this program");
 		}
 		else
-		{
-			System.out.println("File already exists. Overwriting...");
-		}
-		Readpdb(args[0]);
-		System.out.println("Done!");
+			{
+				//create file and do relevant checks to see if the file exists
+				File myFile = new File(filename);
+				//check to see if a file was created and show feedback based on this case
+				if(myFile.createNewFile())
+				{
+					System.out.println("File created: " + myFile.getName());
+				}
+				else
+				{
+					System.out.println("File already exists. Overwriting...");
+				}
+				ReadSTRIDE(args[0]);
+				Readpdb(args[1]);
+				System.out.println("Done!");
+			}
+
 	}
   	catch (IOException e)
 	{
