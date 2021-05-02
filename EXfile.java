@@ -13,6 +13,7 @@ public class EXfile {
 			String line;
 			String split = " ";
 			String[] lineArray;
+			int p =0;
 
 			BufferedReader strideRead = new BufferedReader(new FileReader(file));
 			while(true)
