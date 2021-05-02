@@ -6,19 +6,24 @@ public class EXfile {
 	//make a string for the filename
 	public static String filename = "./Extrabonds.txt";
 
-	public static void ReadSTRIDE(String file)
+	public static ArrayList<String[]> ReadSTRIDE(String file)
 	{
+		ArrayList<String[]> finData = new ArrayList<>();
 		try
 		{
 			String line;
 			String split = " ";
 			String[] lineArray;
+			List<String> structArray = Arrays.asList(new String[]{"C","H","G","T"});
+			ArrayList<String> compressData = new ArrayList<>();
 			int p =0;
 
 			BufferedReader strideRead = new BufferedReader(new FileReader(file));
 			while(true)
 			{
+				compressData.clear();
 				line = strideRead.readLine();
+				p = 0;
 				if(line == null)
 				{
 					break;
@@ -27,8 +32,17 @@ public class EXfile {
 				lineArray = line.split(split);
 				for(int i = 0; i < lineArray.length; i++)
 				{
-					System.out.println("Line Array at pos:" + i + "   " + lineArray[i]);
+
+
+					compressData.add(lineArray[i]);
+
+					if(compressData.get(i-p).isEmpty())
+					{
+						compressData.remove(i-p);
+						p++;
+					}
 				}
+				finData.add(compressData.toArray(new String[11]));
 			}
 
 		}
@@ -36,7 +50,7 @@ public class EXfile {
 		{
 			e.printStackTrace();
 		}
-
+		return finData;
 	}
 
 	public static void outputToFile(ArrayList<String[]> linedata)
