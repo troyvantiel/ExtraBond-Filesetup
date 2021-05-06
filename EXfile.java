@@ -66,7 +66,7 @@ public class EXfile {
 			//specify the spring constant k for the angle
 			int k = 0;
 			//specify the angle in degrees that will be the constraint
-			int ref = 60;
+			double ref = 0;
 			for(int p = 0; p < strideData.size(); p++)
 			{
 				for(int l = 0; l < strideData.get(1).length; l++)
@@ -91,6 +91,7 @@ public class EXfile {
 			//for loop to take the data of four lines at a time and create a constraint
 			for(int y = 0; y < divlength; y = y+4)
 			{
+				ref = Double.parseDouble(strideData.get(y/4)[7]);
 				//write the data to the file in the correct formatting. Example: dihedral <atom1> <atom2> <atom3> <atom4> <k> <ref>
 				fileWrite.write("dihedral "  + pdbdata.get(y)[1]  + " " + pdbdata.get(y+1)[1]  + " " + pdbdata.get(y+2)[1]
 						+ " " + pdbdata.get(y+3)[1]  + " " + k  + " " + ref + "\n");
