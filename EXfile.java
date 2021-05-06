@@ -30,19 +30,22 @@ public class EXfile {
 				}
 				System.out.println("Full Line: " + line);
 				lineArray = line.split(split);
-				for(int i = 0; i < lineArray.length; i++)
+				//System.out.println("Data in the first position of the split line: " + lineArray[0]);
+				if(lineArray[0].equals("ASG"))
 				{
-
-
-					compressData.add(lineArray[i]);
-
-					if(compressData.get(i-p).isEmpty())
+					for(int i = 0; i < lineArray.length; i++)
 					{
-						compressData.remove(i-p);
-						p++;
+						compressData.add(lineArray[i]);
+
+						if(compressData.get(i-p).isEmpty())
+						{
+							compressData.remove(i-p);
+							p++;
+						}
 					}
+					finData.add(compressData.toArray(new String[11]));
 				}
-				finData.add(compressData.toArray(new String[11]));
+
 			}
 
 		}
