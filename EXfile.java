@@ -71,7 +71,7 @@ public class EXfile {
 			{
 				for(int l = 0; l < strideData.get(1).length; l++)
 				{
-					System.out.println(strideData.get(p)[l]);
+					System.out.println("Index: " + l + "   " + strideData.get(p)[l]);
 				}
 			}
 			/* Test for printing all the data that is sent to the output file
