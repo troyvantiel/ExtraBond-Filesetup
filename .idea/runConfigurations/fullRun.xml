@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="fullRun" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="EXfile" />
+    <module name="ExtraBond-Filesetup" />
+    <option name="PROGRAM_PARAMETERS" value="Output.csv udbresolvate.pdb" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

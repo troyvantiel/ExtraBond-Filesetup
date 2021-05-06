@@ -53,25 +53,31 @@ public class EXfile {
 		return finData;
 	}
 
-	public static void outputToFile(ArrayList<String[]> linedata)
+	public static void outputToFile(ArrayList<String[]> pdbdata, ArrayList<String[]> strideData)
 	{
 		try
 		{
 
 			//need to get the length of the final data array divided by four as that is how many atoms are in the residues and thus how many dihedral angles we need to constrain
-			int divlength = linedata.size()/4;
+			int divlength = pdbdata.size()/4;
 			//specify the spring constant k for the angle
 			int k = 0;
 			//specify the angle in degrees that will be the constraint
 			int ref = 60;
-
+			for(int p = 0; p < strideData.size(); p++)
+			{
+				for(int l = 0; l < strideData.get(1).length; l++)
+				{
+					System.out.println(strideData.get(p)[l]);
+				}
+			}
 			/* Test for printing all the data that is sent to the output file
-			for(int t = 0; t < linedata.size(); t++)
+			for(int t = 0; t < pdbdata.size(); t++)
 			{
 				System.out.println(" ");
-				for(int v = 0; v< linedata.get(t).length; v++)
+				for(int v = 0; v< pdbdata.get(t).length; v++)
 				{
-					System.out.print(linedata.get(t)[v] + " ");
+					System.out.print(pdbdata.get(t)[v] + " ");
 				}
 
 			}*/
@@ -83,8 +89,8 @@ public class EXfile {
 			for(int y = 0; y < divlength; y = y+4)
 			{
 				//write the data to the file in the correct formatting. Example: dihedral <atom1> <atom2> <atom3> <atom4> <k> <ref>
-				fileWrite.write("dihedral "  + linedata.get(y)[1]  + " " + linedata.get(y+1)[1]  + " " + linedata.get(y+2)[1]
-						+ " " + linedata.get(y+3)[1]  + " " + k  + " " + ref + "\n");
+				fileWrite.write("dihedral "  + pdbdata.get(y)[1]  + " " + pdbdata.get(y+1)[1]  + " " + pdbdata.get(y+2)[1]
+						+ " " + pdbdata.get(y+3)[1]  + " " + k  + " " + ref + "\n");
 			}
 			fileWrite.close();
 		}
@@ -93,8 +99,9 @@ public class EXfile {
 			e.printStackTrace();
 		}
 	}
-	public static void Readpdb(String file)
+	public static ArrayList<String[]> Readpdb(String file)
 	{
+		ArrayList<String[]> linedata = new ArrayList<>();
 		try
 		{
 			boolean loop = true;
@@ -104,7 +111,6 @@ public class EXfile {
 			String split = " ";
 			List<String> bbatoms = Arrays.asList(new String[]{"C", "O", "N", "CA"});
 			ArrayList<String> atomdata = new ArrayList<>();
-			ArrayList<String[]> linedata = new ArrayList<>();
 			String[] pdbline = null;
 
 			BufferedReader pdbRead = new BufferedReader(new FileReader(file));
@@ -164,13 +170,13 @@ public class EXfile {
 				//call the output method to set up the extrabonds file
 
 			}
-			outputToFile(linedata);
+			//outputToFile(linedata);
 		}
 		catch(IOException e)
 		{
 			e.printStackTrace();
 		}
-
+		return linedata;
 
 
 
@@ -212,8 +218,9 @@ public class EXfile {
 				{
 					System.out.println("File already exists. Overwriting...");
 				}
-				ReadSTRIDE(args[0]);
-				Readpdb(args[1]);
+				ArrayList<String[]> strideData = ReadSTRIDE(args[0]);
+				ArrayList<String[]> pdbData = Readpdb(args[1]);
+				outputToFile(pdbData, strideData);
 				System.out.println("Done!");
 			}
 
