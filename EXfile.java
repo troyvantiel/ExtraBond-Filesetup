@@ -191,6 +191,25 @@ public class EXfile {
   {
   	try
 	{
+		String arg;
+		int i = 0;
+		while(i < args.length && args[i].startsWith("-"))
+		{
+			arg = args[i++];
+			if(arg.equals("-help"))
+			{
+				System.out.println("There must be a stride output file and a .pdb file.");
+				System.out.println("Usage:");
+				System.out.println("Argument 0 = stride output file (.txt or .csv file format)^");
+				System.out.println("Argument 1 = .pdb input file from the molecule");
+				System.out.println("^For a list of instructions to obtain a stride output file run this program again with '-stride' as the first argument.");
+			}
+			else if(arg.equals("-stride"))
+			{
+
+			}
+		}
+		/*
 		if(args[0].equals("help"))
 		{
 			System.out.println("There must be a stride output file and a .pdb file.");
@@ -226,7 +245,7 @@ public class EXfile {
 				ArrayList<String[]> pdbData = Readpdb(args[1]);
 				outputToFile(pdbData, strideData);
 				System.out.println("Done!");
-			}
+			}*/
 
 	}
   	catch (IOException e)
